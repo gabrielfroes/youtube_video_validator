@@ -1,0 +1,14 @@
+name: youtube_video_validator
+version: 1.0.0
+
+homepage: https://github.com/gabrielfroes/youtube_video_validator
+description: A simple dart class for validate Video URL and ID on Youtube
+  
+environment:
+  sdk: '>=1.24.0 <3.0.0'
+
+dependencies:
+  http: ^0.12.0+4
+
+dev_dependencies:
+  test: '1.12.0'
