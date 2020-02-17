@@ -17,7 +17,6 @@ class YoutubeVideoValidator {
 
   /// Validate the specified Youtube video URL.
   static bool validateUrl(String url) {
-    print(url);
     if (url == null) {
       throw ArgumentError('url');
     }
