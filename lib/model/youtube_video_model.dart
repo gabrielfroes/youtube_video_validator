@@ -25,6 +25,19 @@ class YoutubeVideo {
     return (channelID == null) ? null : 'https://youtube.com/user/$channelID';
   }
 
+  void fromJson(Map<String, dynamic> json) {
+    id = json['videoId'];
+    title = json['title'].toString().replaceAll('+', ' ');
+    length = int.tryParse(json['lengthSeconds']);
+    views = int.tryParse(json['viewCount']);
+    channelID = json['channelId'];
+    author = json['author'].toString().replaceAll('+', ' ');
+    description = json['viewCount'];
+    tags = json['keywords'].toString().replaceAll('+', ' ');
+    thubmnail = json['thumbnail']['thumbnails'][4]['url'].toString();
+    rating = json['averageRating'];
+  }
+
   void clear() {
     id = null;
     title = null;
