@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
+import 'package:youtube_video_validator/model/youtube_video_model.dart';
 
 /// Youtube Video Validator
 class YoutubeVideoValidator {
@@ -14,6 +15,7 @@ class YoutubeVideoValidator {
     'unplayable': 'UNPLAYABLE',
     'error': 'ERROR',
   };
+  static YoutubeVideo video = YoutubeVideo();
 
   /// Validate the specified Youtube video URL.
   static bool validateUrl(String url) {
@@ -33,7 +35,8 @@ class YoutubeVideoValidator {
   }
 
   /// Validate the specified Youtube video ID.
-  static Future<bool> validateID(String videoID) async {
+  static Future<bool> validateID(String videoID,
+      {bool loadData = false}) async {
     if (videoID == null) {
       throw ArgumentError('videoID');
     }
@@ -56,11 +59,19 @@ class YoutubeVideoValidator {
     if (options[0].startsWith('player_response=')) {
       final Map<String, dynamic> videoJson = jsonDecode(
           Uri.decodeFull(options[0].substring('player_response='.length)));
-      final String videoStatus = videoJson['playabilityStatus']['status'];
-      return (videoStatus == _playabilityStatus['ok'] ||
-              videoStatus == _playabilityStatus['login_required'])
+
+      final bool isRealVideo = (videoJson['playabilityStatus']['status'] ==
+                  _playabilityStatus['ok'] ||
+              videoJson['playabilityStatus']['status'] ==
+                  _playabilityStatus['login_required'])
           ? true
           : false;
+
+      if (loadData && isRealVideo) {
+        video.fromJson(videoJson['videoDetails']);
+      }
+
+      return isRealVideo;
     } else {
       return false;
     }
