@@ -81,4 +81,14 @@ void main() {
           reason: 'Video ID: $actual'),
     );
   });
+
+  test('Validate validYoutubeVideoIDs are Youtube Video IDs (using loadData)',
+      () async {
+    final String actual = validYoutubeVideoIDs[0];
+
+    await YoutubeVideoValidator.validateID(actual, loadData: true);
+
+    await expectLater(YoutubeVideoValidator.video.id, equals(actual),
+        reason: 'Video Data: ${YoutubeVideoValidator.video.toString()}');
+  });
 }

@@ -12,7 +12,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-    youtube_video_validator: '^1.0.0'
+    youtube_video_validator: '^1.1.0'
 ```
 
 #### 2. Install it
@@ -39,17 +39,26 @@ import 'package:youtube_video_validator/youtube_video_validator.dart';
 Read the unit tests under `test`, or see code example below:
 
 ```Dart
-void main() {
+// validate video URL
+var ytVideo = 'https://www.youtube.com/watch?v=ou6Tt5w9B-Y';
+assert(YoutubeVideoValidator.validateUrl(ytVideo));
+```
 
-    var ytVideo = 'https://www.youtube.com/watch?v=ou6Tt5w9B-Y';
-    assert(YoutubeVideoValidator.validateUrl(ytVideo));
+```Dart
+// validate video ID
+var ytVideoID = 'ou6Tt5w9B-Y';
+assert(await YoutubeVideoValidator.validateID(ytVideoID));
+```
 
-    // OR  
-
-    var ytVideoID = 'ou6Tt5w9B-Y';
-    assert(YoutubeVideoValidator.validateID(ytVideoID));
-
-}
+```Dart
+// validate video ID and grab video data
+var ytVideoID = 'ou6Tt5w9B-Y';
+  if (await YoutubeVideoValidator.validateID(ytVideoID, loadData: true)) {
+    print('Title: ${YoutubeVideoValidator.video.title}');
+    print('Views: ${YoutubeVideoValidator.video.views}');
+    print('Length (seconds): ${YoutubeVideoValidator.video.length}');
+    print('Link: ${YoutubeVideoValidator.video.shareUrl()}');
+  }
 ```
 
 ## Tips
